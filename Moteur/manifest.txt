@@ -1,0 +1,3 @@
+Main-Class: game.GradiusMain
+Class-Path: given.jar
+

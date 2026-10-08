@@ -1,0 +1,30 @@
+Boss(Starting) {
+
+* (Starting)
+| True ? Protect(16000) :(Blocking)
+
+* (Fighting)
+| Struck(Projectile) ? Hit(1) :(LifeCheck)
+| Timer ? Protect(2500) :(Charging)
+| True ? Throw(F) :(Fighting)
+
+* (Charging)
+| Struck(Projectile) ? Hit(1) :(ChargeLifeCheck)
+| Timer ? Protect(3000) :(Blocking)
+| True ? :(Charging)
+
+* (LifeCheck)
+| Life(0) ? Explode :(Dead)
+| True ? :(Fighting)
+
+* (ChargeLifeCheck)
+| Life(0) ? Explode :(Dead)
+| True ? :(Charging)
+
+* (Blocking)
+| Timer ? Protect(6000) :(Fighting)
+| True ? :(Blocking)
+
+* (Dead)
+| True ? Rest :(Dead)
+}

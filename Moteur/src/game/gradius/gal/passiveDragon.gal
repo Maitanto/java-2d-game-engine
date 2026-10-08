@@ -1,0 +1,24 @@
+PassiveDragon(Patrolling) {
+
+* (Patrolling)
+| Struck(Projectile) ? Hit(1) :(LifeCheck)
+| Closest(Team, 30) ? 92% Move(F, 3) / Orient(L) / Orient(R) :(Patrolling)
+| Closest(Team) ? :(Chasing)
+| True ? 92% Move(F, 3) / Orient(L) / Orient(R) :(Patrolling)
+
+* (Chasing)
+| Struck(Projectile) ? Hit(1) :(LifeCheck)
+| Closest(Team, 30) ? 92% Move(F, 3) / Orient(L) / Orient(R) :(Patrolling)
+| Closest(Team, F) ? Move(F, 3) :(Chasing)
+| Closest(Team, L) ? Orient(L) ; Move(F, 3) :(Chasing)
+| Closest(Team, R) ? Orient(R) ; Move(F, 3) :(Chasing)
+| Closest(Team, B) ? Orient(L) ; Move(F, 3) :(Chasing)
+| True ? Move(F, 3) :(Chasing)
+
+* (LifeCheck)
+| Life(0) ? Explode :(Dead)
+| True ? :(Patrolling)
+
+* (Dead)
+| True ? Rest :(Dead)
+}

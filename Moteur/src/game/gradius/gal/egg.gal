@@ -1,0 +1,5 @@
+Egg(Spawn) {
+
+  * (Spawn)
+  | True    ?     Throw(F)    :(Spawn)
+}
