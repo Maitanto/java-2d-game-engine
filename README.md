@@ -1,73 +1,114 @@
-# Lancer le projet
+# Gradius 2D Game Engine
 
-## Avec Eclipse
+## Polytech Grenoble - 4th Year Software Engineering Portfolio
 
-1. Ouvrir Eclipse.
-2. Choisir le dossier `gradius` comme workspace.
-3. Créer un nouveau projet Java nommé `Moteur`.
-4. Utiliser Java 21.
-5. Ne pas créer de fichier `module-info.java`.
-6. Lancer le projet avec le bouton **Run**.
-7. Sélectionner `Main.java` comme classe principale si Eclipse le demande.
+This repository features a custom-built 2D game engine and a fully playable shoot-'em-up game inspired by *Gradius*. Developed entirely in Java 21, this project demonstrates software engineering principles, custom rendering loops, algorithmic entity management, and dynamic behavior parsing.
 
-## Lancer le jeu hors Eclipse
+## Key Technical Features
 
-Le jeu peut aussi être lancé sans Eclipse, directement depuis le dossier Moteur.
+### Engine Architecture & Rendering
 
-## Avec le fichier .jar
-- Dans le dossier Moteur : `java -jar Gradius.jar` 
-
-## Avec le lanceur exécutable
-
-Un lanceur nommé GradiusGame est également fourni dans le dossier Moteur :
-
-- `./GradiusGame`
-
-Si le lanceur n’a pas encore les droits d’exécution, il faut d’abord lui donner les droits :
-
-- `chmod +x GradiusGame`
-
-## Lancer les tests
-
-1. Faire clic droit sur le projet `Moteur`.
-2. Aller dans **Properties**.
-3. Aller dans **Java Build Path**.
-4. Ouvrir l’onglet **Libraries**.
-5. Cliquer sur **Add Library**.
-6. Sélectionner **JUnit**, puis cliquer sur **Next**.
-7. Sélectionner **JUnit 6**, puis cliquer sur **Finish**.
-8. Cliquer sur **Apply and Close**.
-9. Lancer les tests avec **Run as > JUnit Test**.
+* **Toroidal World Generation:** Implements a wrap-around toroidal world coordinate system on both the X and Y axes.
 
 
-## Dépendances
+* **Dynamic Viewport & Scrolling:** Features a constant-speed scrolling viewport with dynamic map generation, seamlessly spawning and despawning obstacles based on camera position.
 
-Le projet utilise le fichier `given.jar`.
 
-Si Eclipse ne le détecte pas automatiquement :
+* **Custom Animation System:** Includes visual particle effects for sand, weapon projectiles, entity destruction, and specific environmental states.
 
-1. Faire clic droit sur le projet `Moteur`.
-2. Aller dans **Properties > Java Build Path**.
-3. Ouvrir l’onglet **Libraries**.
-4. Cliquer sur **Add JARs...** ou **Add External JARs...**.
-5. Sélectionner `given.jar`.
-6. Cliquer sur **Apply and Close**.
 
-## Contrôles du vaisseau
-- Maintenir *Flèche droite* pour aller à droite.
-- Maintenir *Flèche gauche* pour aller à gauche.
-- Maintenir *Flèche haut* pour aller en haut.
-- Maintenir *Flèche bas* pour aller en bas.
-- Combiner 2 flèches permet de se déplacer en diagonale.
-- Maintenir *Espace* pour tirer.
-- Appuyer sur *D* ainsi qu'une des flèches pour effectuer un dash dans la direction voulue.
 
-## Mode Debug
-- Appuyer sur *Tab* pour afficher les données telles que :
-	- Durée moyenne d'un tick
-	- FPS
-	- Etat courant de l'automate d'une entité
-	- Position/Vecteurs vitesse/Vitesse de rotation d'une entité
-	- BoundingBox d'une entité
-- Appuyer sur *V* pour afficher toute la map, et ainsi voir le déplacement du ViewPort.
-- Le *clic molette* combine les deux effets.
+### AI & Entity Behavior (Finite State Machines)
+
+* **Custom GAL Parser:** Entity behaviors are driven by a custom-built parser for `.gal` files, allowing Finite State Machine (FSM) logic to be modified and loaded without recompiling the Java codebase.
+
+
+* **Dynamic State Transitions:** Bots can alter their FSM and behavior mid-game; for example, a Dragon boss enters an "enraged" state with increased speed and active player-tracking when its health drops below 50%.
+
+
+* **Kinematic Modeling:** Engineered a multi-part composite entity (Dragon) where trailing body segments smoothly follow the head's historical positions and rotation vectors using a calculated movement delay.
+
+
+
+### Gameplay Mechanics
+
+* **Simultaneous Action Processing:** The engine supports executing multiple inputs concurrently, allowing actions like dashing while rotating or moving diagonally.
+
+
+* **Combat & Collision System:** Utilizes strict bounding box collision detection integrated with a health point (HP) system, post-hit invincibility frames, and visual damage indicators.
+
+
+* **Advanced Entity Spawning:** Includes wave-based enemy generation, ground-based enemy factory entities, and a multi-entity composite final boss that utilizes zone attacks.
+
+
+* **Power-up Ecosystem:** Features an in-game drop system for temporary speed boosts, triple-shot modifications, single-hit shields, and three distinct weapon types (Classic, Expanding Laser, Missiles).
+
+
+
+## Development & Debugging Tools
+
+Built-in developer tools are accessible in real-time to profile engine performance and monitor entity states.
+
+* **Performance Profiling:** Press *Tab* to monitor FPS, average tick duration, and paint times to manage engine load.
+
+
+* **Entity Telemetry:** Displays current FSM states, precise position coordinates, velocity/rotation vectors, and collision bounding boxes.
+
+
+* **Map Overview:** Press *V* to zoom out the camera and view the entire generated map boundaries beyond the active viewport limits.
+
+
+* **Combined View:** Use *Middle-click* to toggle both the map overview and telemetry data simultaneously.
+
+
+
+## Getting Started
+
+This engine requires **Java 21**.
+
+### Standalone Execution
+
+You can run the compiled game directly from the `Moteur` directory:
+
+* **Executable Launcher:** Run `./GradiusGame` (Ensure it has execution rights via `chmod +x GradiusGame` if necessary).
+* **JAR File:** Run `java -jar Gradius.jar`
+
+### Setup via Eclipse IDE
+
+1. Open Eclipse and select the `gradius` folder as your workspace.
+
+
+2. Create a new Java project named `Moteur` using Java 21.
+
+
+3. **Do not** create a `module-info.java` file.
+
+
+4. Link the required dependency: Right-click the project -> **Properties > Java Build Path > Libraries** -> **Add External JARs...** -> select `given.jar`.
+
+
+5. Run the project using the **Run** button. If prompted, select `Main.java` as the primary class.
+
+
+
+### Running Tests
+
+1. Right-click the `Moteur` project and navigate to **Properties > Java Build Path > Libraries**.
+
+
+2. Click **Add Library**, select **JUnit**, and choose **JUnit 6**.
+
+
+3. Click **Apply and Close**, then execute the test suite via **Run as > JUnit Test**.
+
+
+
+## Controls
+
+* **Movement:** Hold *Up*, *Down*, *Left*, or *Right* arrows. Combine two arrows for diagonal movement.
+
+
+* **Dash / Dodge:** Press *D* simultaneously with any directional arrow to perform a quick dash. Note: This mechanic has a 3-to-5 second cooldown.
+
+
+* **Shoot:** Hold *Space* to fire your currently equipped weapon.
